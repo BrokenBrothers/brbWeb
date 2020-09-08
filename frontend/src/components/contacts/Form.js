@@ -1,21 +1,29 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { addContact } from '../../actions/contact'
 
 export class Form extends Component {
     state = {
         subject: "",
         email: "",
         message: "",
-        date: "",
+
+    };
+    static propTypes = {
+        addContact: PropTypes.func.isRequired
     };
     onChange = e => this.setState({
-        [e.target.subject]: e.target.value
+        [e.target.name]: e.target.value
     });
     onSubmit = e => {
         e.preventDefault();
-        console.log("submit");
+        const { subject, email, message } = this.state;
+        const contact = { subject, email, message };
+        this.props.addContact(contact);
     }
     render() {
-        const { subject, email, message, date } = this.state;
+        const { subject, email, message } = this.state;
         return (
 
             <div>
@@ -50,16 +58,7 @@ export class Form extends Component {
                             value={message}
                         />
                     </div>
-                    <div>
-                        <label>Date sa</label>
-                        <input
 
-                            type="text"
-                            name="date"
-                            onChange={this.onChange}
-                            value={date}
-                        />
-                    </div>
                     <div>
                         <button typy="submit">Save</button>
                     </div>
@@ -68,4 +67,4 @@ export class Form extends Component {
         )
     }
 }
-export default Form;
+export default connect(null, { addContact })(Form);

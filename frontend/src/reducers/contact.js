@@ -1,5 +1,5 @@
 // tipos de acciones para la funcion reductura
-import { GET_CONTACT, DELETE_CONTACT } from '../actions/types.js';
+import { GET_CONTACT, DELETE_CONTACT, ADD_CONTACT } from '../actions/types.js';
 // inicializacion del estado de la funcion reductora
 const initialState = {
     contact: []
@@ -22,6 +22,12 @@ export default function (state = initialState, action) {
                 ...state, // estado editado
                 contact: state.contact.filter(contact => contact.id !== action.payload) // obtiene la data del contacto a eliminar
             }
+        case ADD_CONTACT:
+            return {
+                ...state, // estado editado
+                contact: [...state.contact, action.payload] // obtiene la data del contacto nuevo
+            }
+
         default:
             return state; // retorna este esatado si no existe una accion correspondiente a la del parametro de la funcion
     }
