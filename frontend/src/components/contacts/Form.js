@@ -5,6 +5,7 @@ export class Form extends Component {
         subject: "",
         email: "",
         message: "",
+        date: "",
     };
     onChange = e => this.setState({
         [e.target.subject]: e.target.value
@@ -14,14 +15,14 @@ export class Form extends Component {
         console.log("submit");
     }
     render() {
-        const { subject, email, message } = this.state;
+        const { subject, email, message, date } = this.state;
         return (
 
             <div>
                 <h2>Add Lead</h2>
                 <form onSubmit={this.onSubmit}>
                     <div>
-                        <label>subject 1</label>
+                        <label>Subject</label>
                         <input
                             type="text"
                             name="subject"
@@ -47,6 +48,16 @@ export class Form extends Component {
                             name="message"
                             onChange={this.onChange}
                             value={message}
+                        />
+                    </div>
+                    <div>
+                        <label>Date sa</label>
+                        <input
+
+                            type="text"
+                            name="date"
+                            onChange={this.onChange}
+                            value={date}
                         />
                     </div>
                     <div>
