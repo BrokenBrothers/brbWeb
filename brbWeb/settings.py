@@ -37,11 +37,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'Apps.Blog', # se agrega la app blog
-    'Apps.Portfolio', # se agrega la app forfolio
-    'webpack_loader', # se agrega webpack_loader  que permite conectar con el frontend
-    'rest_framework' # libreria para serializar los datos y tener una api web
+    'Apps.Blog',  # se agrega la app blog
+    'Apps.Portfolio',  # se agrega la app forfolio
+    'Apps.accounts',  # se agrega la app de cuentas, que permite manejar la cuenta de un usuario
+    'webpack_loader',  # se agrega webpack_loader  que permite conectar con el frontend
+    'rest_framework',  # libreria para serializar los datos y tener una api web
+    'knox'  # libreria para autenticacion de usuarios para api web permitiendo obtener toker de autenticacion para rest_framework
 ]
+
+REST_FRAMEWORK = {  # se  declara knox como la autenticacion por default en la aplicacion
+    'DEFAULT_AUTHENTICATION_CLASSES':
+    ('knox.auth.TokenAuthentication',)
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -58,7 +65,8 @@ ROOT_URLCONF = 'brbWeb.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS':  [os.path.join(BASE_DIR,'templates')], # templates de todas las aplicaciones
+        # templates de todas las aplicaciones
+        'DIRS':  [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -80,11 +88,11 @@ WSGI_APPLICATION = 'brbWeb.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME':'brbWeb',
-        'USER':'postgres',
-        'PASSWORD':'12345',
-        'HOST':'localhost',
-        'PORT':'5432',
+        'NAME': 'brbWeb',
+        'USER': 'postgres',
+        'PASSWORD': '12345',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
@@ -124,7 +132,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
-STATIC_ROOT= os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),] # archivos estaticos de todas las aplicaciones
-
+# archivos estaticos de todas las aplicaciones
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]

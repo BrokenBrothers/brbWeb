@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 // PropTypes permite especificar las propiedades de un componente en especifico y los tipos de datos
 import PropTypes from 'prop-types';
 // se obtienen las acciones que se desean realizar para el contacto
-import { getContact, deleteContact } from '../../actions/contact';
+import { getContact, deleteContact } from '../../redux/actions/contact';
 
 /**
  * componenete para el contacto en el cual se listas los contactos por medio de la accion getcontact
@@ -21,7 +21,7 @@ export class Contact extends Component {
     componentDidMount() { // permite cargar los datos de contacto al componente por medio de la accion getcontact
         this.props.getContact(); // datos a montar en el componente
     }
-
+    // se pinta la interfaz
     render() {
         return (
             <Fragment>
@@ -55,9 +55,9 @@ export class Contact extends Component {
         )
     }
 }
-const mapStateToProps = state => ({// permite extraer los objetos de un estado para pasarlos al componente
+const mapStateToProps = state => ({// permite extraer los objetos de un estado para pasarlos al componente(mapa de estado)
     contact: state.contact.contact
 
 });
-// conecta el componente react con el store 
+//  le envia el mapa de accesorios  y se llama la accion a realizar
 export default connect(mapStateToProps, { getContact, deleteContact })(Contact); 

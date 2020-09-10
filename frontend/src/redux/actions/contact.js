@@ -2,6 +2,8 @@
 import axios from 'axios';
 // se importan los tipos de acciones del contacto
 import { GET_CONTACT, DELETE_CONTACT, ADD_CONTACT } from './types';
+// se obtiene la accion de crear un mensaje
+import { createMessage, returnErrors } from './messages';
 
 //componente que realiza la accion obtener contactos y enviado la accion  al reducer
 export const getContact = () => dispatch => {
@@ -12,7 +14,7 @@ export const getContact = () => dispatch => {
                 type: GET_CONTACT, // tipo de accion enviada al reducer
                 payload: res.data, // data nueva enviada al reducer
             });
-        }).catch(err => console.log(err)); // si salta un error se imprime en consola
+        }).catch(err => dispatch(returnErrors(err.response.data, err.response.status))); // si salta un error llama a la accion 
 };
 
 // componente que realiza la accion eliminar contacto y enviado la accion  al reducer
@@ -20,10 +22,14 @@ export const deleteContact = (id) => dispatch => {
     axios
         .delete(`/api/Contact/${id}/`) // accede a la api del backend en django
         .then(res => { // res permite obtener la data de la interfaz
+
             dispatch({ // se envia la data al reducer
                 type: DELETE_CONTACT, // tipo de accion enviada al reducer eliminar contacto
-                payload: id, // identificador para eliminar el contacto
+                payload: id, // data enviada al reducer
             });
+            dispatch(createMessage({// se envia al reducer la creacion de un nuevo mensaja
+                deleteContact: 'Contact deleted' // mensaje de eliminacion de contacto
+            }));
         }).catch(err => console.log(err));// si salta un error se imprime en consola
 };
 
@@ -33,9 +39,13 @@ export const addContact = (contact) => dispatch => {
     axios
         .post(`/api/Contact/`, contact) // envia los datos a la api del backend en django 
         .then(res => { // res permite obtener la data de la interfaz
+
             dispatch({ // se envia la data al reducer
                 type: ADD_CONTACT, // tipo de accion enviada al reducer para agregar contacto
-                payload: res.data, // data enviada por medio del metodo post
+                payload: res.data, // data enviada al reducer
             });
-        }).catch(err => console.log(err));// si salta un error se imprime en consola
+            dispatch(createMessage({// se envia al reducer la accion de crear un nuevo mensaje 
+                addContact: 'Contact added' // mensaje de contacto agregado
+            }));
+        }).catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
 };
