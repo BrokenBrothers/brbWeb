@@ -12,7 +12,7 @@ import Dashboard from './contacts/Dashboard'; // componente Dashboard
 import Alerts from './layout/Alerts'; // componente alerta
 import Login from './accounts/Login'; // componente Login
 import Register from './accounts/Register'; // componente Register
-import PrivateRoute from './common/PrivateRoute'; // componente PrivateRoute
+import PrivateRoute from './common/PrivateRoute'; // componente PrivateRoute que permite privatizar un  componente según un estado de autentizacion
 
 
 import { Provider } from 'react-redux'; //  permite globalizar el store para todos los componentes

@@ -4,11 +4,12 @@ import { GET_CONTACT, DELETE_CONTACT, ADD_CONTACT } from '../actions/types.js';
 const initialState = {
     contact: []
 }
-/*
-    Funcion reductora contact
-    state: estado actual
-    action: accion que edita el estado
-    return: estado editado por la accion
+
+/**
+ * Funcion reductora contact
+ * @param {*} state estado actual
+ * @param {*} action accion que edita el estado
+ * @returns estado editado por la accion
  */
 export default function (state = initialState, action) {
     switch (action.type) { // tipos de la accion para editar el esado

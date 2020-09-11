@@ -40,7 +40,7 @@ export class Alerts extends Component {
         )
     }
 }
-// estado actual del error
+// estado actual del error y mensajes
 const mapStateToProps = state => ({
     error: state.errors,
     message: state.messages

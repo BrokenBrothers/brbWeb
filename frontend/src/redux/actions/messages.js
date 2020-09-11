@@ -10,7 +10,7 @@ export const createMessage = msg => {
 
 };
 
-// retorna los errores de la aplicación 
+// retorna los errores de la aplicación (funcion que recibe el mensaje del erros y el estado del mismo)
 export const returnErrors = (msg, status) => {
     return {
         type: GET_ERRORS, // tipo de accion enviada al reducer eliminar contacto

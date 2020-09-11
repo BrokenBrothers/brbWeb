@@ -16,12 +16,12 @@ export class Form extends Component {
         message: "",
 
     };
-    static propTypes = {
+    static propTypes = {// permite definir una serie de validaciones en el componente en el momento de su creacion
         addContact: PropTypes.func.isRequired
     };
     // captura el cambio de una variable y se edita el estado de la misma por medio de setState. 
     onChange = e => this.setState({
-        [e.target.name]: e.target.value
+        [e.target.name]: e.target.value // agrega a cada nombre del estado(cantidad de input) su respectivo valor
     });
     // captura el boton submit tiene un evento
     onSubmit = e => {
@@ -83,4 +83,5 @@ export class Form extends Component {
     }
 }
 // se llama la accion a realizar, y el mapa de accesorios se pasa en null
+// no es necesario enviar el mapStateProps devido a que es una nueva inserción 
 export default connect(null, { addContact })(Form);

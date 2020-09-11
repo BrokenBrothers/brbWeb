@@ -60,7 +60,7 @@ export const login = (username, password) => dispatch => {
         .post('api/auth/login', body, config)// se realiza una petición POST que permite enviar los datos de las credenciales
         .then(res => {//  res permite obtener la data
 
-            dispatch({// si la url no respon de con un error se procede a pasar el esatdo del login a LOGIN_SUCCESS
+            dispatch({// si la url no responde con un error se procede a pasar el esatdo del login a LOGIN_SUCCESS
                 type: LOGIN_SUCCESS,// estado del login si no ocurren errores
                 payload: res.data // data del estado
             });
@@ -79,43 +79,48 @@ export const login = (username, password) => dispatch => {
         });
 
 }
+// permite manejar las acciones del logout en la aplicación, este recibe el esatdo de auth
 export const logout = () => (dispatch, getState) => {
     axios
-        .post('/api/auth/logout/', null, tokenConfig(getState))
+        .post('/api/auth/logout/', null, tokenConfig(getState))// se realiza la peticion a la api de tumbar el token obtenido
         .then((res) => {
 
-            dispatch({
+            dispatch({// se cambia el estado del auth 
                 type: LOGOUT_SUCCESS,
             });
         })
-        .catch((err) => {
+        .catch((err) => {// si ocurre un  error la accion returnErrors lo reporta
             dispatch(returnErrors(err.response.data, err.response.status));
         });
 };
 
-// REGISTER USER
+
+/**
+ * permite manejar las acciones del logout en la aplicación, los parametros del formulario 
+ * @param {*} param0 usuario a registrar
+ */
 export const register = ({ username, password, email }) => (dispatch) => {
-    // Headers
+    //  se configura el tipo de peticion de la url
     const config = {
         headers: {
             'Content-Type': 'application/json',
         },
     };
 
-    // Request Body
+    // se transforman los datos en un JSON para poder ser enviados a la API
     const body = JSON.stringify({ username, email, password });
 
     axios
-        .post('/api/auth/register', body, config)
+        .post('/api/auth/register', body, config)// se realiza la peticion a la API y se le envia la informacion correspondiente
         .then((res) => {
-            dispatch({
+            dispatch({// se ejecuta la accion regisster que permite cambiar el estado de auth
                 type: REGISTER_SUCCESS,
                 payload: res.data,
             });
         })
-        .catch((err) => {
-            dispatch(returnErrors(err.response.data, err.response.status));
-            dispatch({
+        .catch((err) => {// si ocurre un error se ejecuta lo siguiente
+            dispatch(returnErrors(err.response.data, err.response.status));// se llama a la accion returnErrors que permite enviar el error correspondiente
+            dispatch({// se ejecuta la accion register_fail que permite cambien el estado del auht
                 type: REGISTER_FAIL,
             });
         });

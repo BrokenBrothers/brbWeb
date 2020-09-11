@@ -1,12 +1,22 @@
+// component es un fragmento de codigo reutilizable que retorna un elemento react
 import React, { Component } from 'react'
+// Link permite realizar una navegacion dentro de la aplicacion
+// Redirect permite crear redirecciones a partir de una accion
 import { Link, Redirect } from 'react-router-dom';
+//  connect es una funcion que permite conectar un componente de react con el store
 import { connect } from 'react-redux';
+// PropTypes permite especificar las propiedades de un componente en especifico y los tipos de datos(validaciones)
 import PropTypes from 'prop-types';
+// importacion de la accion register
 import { register } from '../../redux/actions/auth';
+// importacion de la accion createMessage
 import { createMessage } from '../../redux/actions/messages'
 
 
-
+/**
+ * componenete para el registro  el cual se posee un formulario de registro (username, password, email, password2)
+ *  a su vez registrarse en la aplicacion por medio de de una accion register 
+ */
 export class Register extends Component {
     state = { // se crean las variable de estado para la nueva insercion
         username: '',
@@ -14,30 +24,33 @@ export class Register extends Component {
         password: '',
         password2: '',
     };
-    static propTypes = {
+    static propTypes = {// permite definir una serie de validaciones en el componente en el momento de su creacion
         register: PropTypes.func.isRequired,
         isAuthenticated: PropTypes.bool,
     };
+    // captura el boton submit tiene un evento
     onSubmit = (e) => {
-        e.preventDefault();
-        const { username, email, password, password2 } = this.state;
-        if (password !== password2) {
-            this.props.createMessage({ passwordNotMatch: 'Passwords do not match' });
+        e.preventDefault();// evita la configuracion predeterminada
+        const { username, email, password, password2 } = this.state; // // se obtienen los campos para el esatdo
+        if (password !== password2) {// validacion de confirmacion de contraseña
+            this.props.createMessage({ passwordNotMatch: 'Passwords do not match' });// creacion de accion de mensaje (passwordNotMatch) 
         } else {
-            const newUser = {
+            const newUser = { // se crea el nuevo usuario con los campos obtenidos
                 username,
                 password,
                 email,
             };
-            this.props.register(newUser);
+            this.props.register(newUser);// se llama a la accion register que permite registrar un usuario
         }
     };
-    onChange = e => this.setState({
-        [e.target.name]: e.target.value
+    // captura el cambio de una variable y se edita el estado de la misma por medio de setState. 
+    onChange = (e) => this.setState({
+        [e.target.name]: e.target.value// agrega a cada nombre del estado(cantidad de input) su respectivo valor
     });
+
     render() {
-        if (this.props.isAuthenticated) {
-            return <Redirect to="/" />;
+        if (this.props.isAuthenticated) {// se valida el estado del usuario por medio de la variable autenticacion
+            return <Redirect to="/" />; // si se encuentra autenticado se retorna a la pagina principal
         }
         const { username, email, password, password2 } = this.state // asocia las variables de la interfaz con el estado
 
@@ -98,8 +111,9 @@ export class Register extends Component {
         )
     }
 }
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => ({ // permite extraer los objetos de un estado actualizado para pasarlos al reducer para que este pueda actualizarlos
     isAuthenticated: state.auth.isAuthenticated,
 });
 
+//  le envia el mapa de accesorios  y  la accion  login 
 export default connect(mapStateToProps, { register, createMessage })(Register);

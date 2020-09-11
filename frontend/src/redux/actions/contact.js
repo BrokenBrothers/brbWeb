@@ -11,7 +11,7 @@ export const getContact = () => (dispatch, getState) => {
     axios
         .get("/api/Contact/", tokenConfig(getState)) // accede a la api del backend en django
         .then(res => { // res permite obtener la data 
-            dispatch({ // se envia la data al reducer
+            dispatch({ // se envia la data al reducer para que proceda a editar el estado
                 type: GET_CONTACT, // tipo de accion enviada al reducer
                 payload: res.data, // data nueva enviada al reducer
             });
@@ -24,7 +24,7 @@ export const deleteContact = (id) => (dispatch, getState) => {
         .delete(`/api/Contact/${id}/`, tokenConfig(getState)) // accede a la api del backend en django
         .then(res => { // res permite obtener la data 
 
-            dispatch({ // se envia la data al reducer
+            dispatch({ // se envia la data al reducer para que proceda a editar el estado
                 type: DELETE_CONTACT, // tipo de accion enviada al reducer eliminar contacto
                 payload: id, // data enviada al reducer
             });
@@ -41,7 +41,7 @@ export const addContact = (contact) => (dispatch, getState) => {
         .post(`/api/Contact/`, contact, tokenConfig(getState)) // envia los datos a la api del backend en django 
         .then(res => { // res permite obtener la data 
 
-            dispatch({ // se envia la data al reducer
+            dispatch({ // se envia la data al reducer para que proceda a editar el estado
                 type: ADD_CONTACT, // tipo de accion enviada al reducer para agregar contacto
                 payload: res.data, // data enviada al reducer
             });

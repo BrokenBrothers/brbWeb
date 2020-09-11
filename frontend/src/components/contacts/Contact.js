@@ -3,7 +3,7 @@
 import React, { Component, Fragment } from 'react';
 // connect es una funcion que permite conectar un componente de react con el store
 import { connect } from 'react-redux';
-// PropTypes permite especificar las propiedades de un componente en especifico y los tipos de datos
+// PropTypes permite especificar las propiedades de un componente en especifico y los tipos de datos(validaciones)
 import PropTypes from 'prop-types';
 // se obtienen las acciones que se desean realizar para el contacto
 import { getContact, deleteContact } from '../../redux/actions/contact';
@@ -13,12 +13,12 @@ import { getContact, deleteContact } from '../../redux/actions/contact';
  * y a su vez permite eliminar contactos por medio de la accion deletecontact
  */
 export class Contact extends Component {
-    static propTypes = { // 
+    static propTypes = { // permite definir una serie de validaciones en el componente en el momento de su creacion
         contact: PropTypes.array.isRequired, // Todos los PropTypes son requeridos 
         getContact: PropTypes.func.isRequired,
         deleteContact: PropTypes.func.isRequired
     };
-    componentDidMount() { // permite cargar los datos de contacto al componente por medio de la accion getcontact
+    componentDidMount() { // permite cargar los datos de contacto al componente por medio de la accion getcontact.  Se produce inmediatamente después del primer renderizado
         this.props.getContact(); // datos a montar en el componente
     }
     // se pinta la interfaz
@@ -55,7 +55,7 @@ export class Contact extends Component {
         )
     }
 }
-const mapStateToProps = state => ({// permite extraer los objetos de un estado para pasarlos al componente(mapa de estado)
+const mapStateToProps = state => ({// permite extraer los objetos de un estado actualizado para pasarlos al reducer
     contact: state.contact.contact
 
 });
