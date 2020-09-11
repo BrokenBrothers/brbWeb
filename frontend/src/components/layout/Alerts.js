@@ -21,10 +21,14 @@ export class Alerts extends Component {
             if (error.msg.subject) alert.error(`Subject: ${error.msg.subject.join()}`); // errores de la api sobre el campo
             if (error.msg.message) alert.error(`Message: ${error.msg.message.join()}`);// errores de la api sobre el campo
             if (error.msg.email) alert.error(`Email: ${error.msg.email.join()}`);// errores de la api sobre el campo
+            if (error.msg.non_field_errors) alert.error(error.msg.non_field_errors.join());// error de credenciales invalidas
+            if (error.msg.username) alert.error(error.msg.username.join());
         }
         if (message !== prevProps.message) {// mensajes de alerta sobre la app
-            if (message.deleteContact) alert.success(message.deleteContact); // aletar de eliminacion de un contacto
-            if (message.addContact) alert.success(message.addContact);// aleta de contacto agregado 
+            if (message.deleteContact) alert.success(message.deleteContact); // alerta de eliminacion de un contacto
+            if (message.addContact) alert.success(message.addContact);// alerta de contacto agregado 
+            if (message.passwordNotMatch) alert.error(message.passwordNotMatch);// alerta de passwoor diferentes en el registro
+
         }
 
     }

@@ -69,7 +69,7 @@ class UserAPI(generics.RetrieveAPIView):
     # https://www.django-rest-framework.org/api-guide/permissions/
     permissions_classes = [
         # solo se puede acceder a esta vista si el usuario esta autenticado
-        permissions.IsAuthenticated
+        permissions.IsAuthenticated,
     ]
     # se hace uso del serializador UserSerializer
     serializer_class = UserSerializer

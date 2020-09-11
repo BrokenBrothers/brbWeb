@@ -1,20 +1,46 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { register } from '../../redux/actions/auth';
+import { createMessage } from '../../redux/actions/messages'
+
+
 
 export class Register extends Component {
     state = { // se crean las variable de estado para la nueva insercion
         username: '',
         email: '',
         password: '',
-        password2: ''
+        password2: '',
     };
-    onSubmit = e => {
-        e.preventDifault();
-        console.log('submit')
-    }
-    onChange = e => this.setState({ [e.target.name]: e.target.value });
+    static propTypes = {
+        register: PropTypes.func.isRequired,
+        isAuthenticated: PropTypes.bool,
+    };
+    onSubmit = (e) => {
+        e.preventDefault();
+        const { username, email, password, password2 } = this.state;
+        if (password !== password2) {
+            this.props.createMessage({ passwordNotMatch: 'Passwords do not match' });
+        } else {
+            const newUser = {
+                username,
+                password,
+                email,
+            };
+            this.props.register(newUser);
+        }
+    };
+    onChange = e => this.setState({
+        [e.target.name]: e.target.value
+    });
     render() {
+        if (this.props.isAuthenticated) {
+            return <Redirect to="/" />;
+        }
         const { username, email, password, password2 } = this.state // asocia las variables de la interfaz con el estado
+
         // se pinta la interfaz
         return (
             <div>
@@ -24,7 +50,7 @@ export class Register extends Component {
                         <label>username </label>
                         <input
                             type="text"
-                            name="usename"
+                            name="username"
                             onChange={this.onChange} // permite activar el cambio de estado cuando se ingresa un cambio en el campo
                             value={username}
                         />
@@ -72,4 +98,8 @@ export class Register extends Component {
         )
     }
 }
-export default Register
+const mapStateToProps = (state) => ({
+    isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, { register, createMessage })(Register);

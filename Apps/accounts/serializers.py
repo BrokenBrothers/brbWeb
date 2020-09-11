@@ -15,7 +15,7 @@ class UserSerializer(serializers.ModelSerializer):
         # se serializaran los estos atributos del modelo user
         fields = ('id', 'username', 'email')
 
-# # RegisterSerializer hace uso de serializers.ModelSerializer que permite serializar un modelo
+#  RegisterSerializer hace uso de serializers.ModelSerializer que permite serializar un modelo
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -46,6 +46,7 @@ class LoginSerializer(serializers.Serializer):
         # se hace uso de authenticate de django que permite autenticar al usuario con los datos
         user = authenticate(**data)
         if user and user.is_active:  # se pregunta si el usuario con esas crdenciales esta autenticado y se encuentra activo
+
             return user
         # de lo contrario regresa un error de credenciales
         raise serializers.ValidationError("Incorrect Credentials")

@@ -4,12 +4,13 @@ import axios from 'axios';
 import { GET_CONTACT, DELETE_CONTACT, ADD_CONTACT } from './types';
 // se obtiene la accion de crear un mensaje
 import { createMessage, returnErrors } from './messages';
+import { tokenConfig } from './auth';
 
 //componente que realiza la accion obtener contactos y enviado la accion  al reducer
-export const getContact = () => dispatch => {
+export const getContact = () => (dispatch, getState) => {
     axios
-        .get("/api/Contact/") // accede a la api del backend en django
-        .then(res => { // res permite obtener la data de la interfaz
+        .get("/api/Contact/", tokenConfig(getState)) // accede a la api del backend en django
+        .then(res => { // res permite obtener la data 
             dispatch({ // se envia la data al reducer
                 type: GET_CONTACT, // tipo de accion enviada al reducer
                 payload: res.data, // data nueva enviada al reducer
@@ -18,10 +19,10 @@ export const getContact = () => dispatch => {
 };
 
 // componente que realiza la accion eliminar contacto y enviado la accion  al reducer
-export const deleteContact = (id) => dispatch => {
+export const deleteContact = (id) => (dispatch, getState) => {
     axios
-        .delete(`/api/Contact/${id}/`) // accede a la api del backend en django
-        .then(res => { // res permite obtener la data de la interfaz
+        .delete(`/api/Contact/${id}/`, tokenConfig(getState)) // accede a la api del backend en django
+        .then(res => { // res permite obtener la data 
 
             dispatch({ // se envia la data al reducer
                 type: DELETE_CONTACT, // tipo de accion enviada al reducer eliminar contacto
@@ -35,10 +36,10 @@ export const deleteContact = (id) => dispatch => {
 
 
 // componente que realiza la accion agregar contacto y enviado la accion  al reducer
-export const addContact = (contact) => dispatch => {
+export const addContact = (contact) => (dispatch, getState) => {
     axios
-        .post(`/api/Contact/`, contact) // envia los datos a la api del backend en django 
-        .then(res => { // res permite obtener la data de la interfaz
+        .post(`/api/Contact/`, contact, tokenConfig(getState)) // envia los datos a la api del backend en django 
+        .then(res => { // res permite obtener la data 
 
             dispatch({ // se envia la data al reducer
                 type: ADD_CONTACT, // tipo de accion enviada al reducer para agregar contacto

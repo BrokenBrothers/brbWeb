@@ -1,28 +1,40 @@
-import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import React, { Component } from 'react';
+import { Link, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { login } from '../../redux/actions/auth';
 
 export class Login extends Component {
     state = { // se crean las variable de estado para la nueva insercion
         username: '',
-        password2: ''
+        password: ''
     };
-    onSubmit = e => {
-        e.preventDifault();
-        console.log('submit')
+    static propTypes = {
+        login: PropTypes.func.isRequired,
+        isAuthenticated: PropTypes.bool,
     };
-    onChange = e => this.setState({ [e.target.name]: e.target.value });
+
+    onSubmit = (e) => {
+        e.preventDefault();
+        this.props.login(this.state.username, this.state.password);
+    };
+
+    onChange = (e) => this.setState({ [e.target.name]: e.target.value });
+
     render() {
-        const { username, password } = this.state // asocia las variables de la interfaz con el estado
-        // se pinta la interfaz
+        if (this.props.isAuthenticated) {
+            return <Redirect to="/" />;
+        }
+        const { username, password } = this.state;
         return (
             <div>
                 <h2>Login</h2>
                 <form onSubmit={this.onSubmit}>
                     <div>
-                        <label>username </label>
+                        <label>Username </label>
                         <input
                             type="text"
-                            name="usename"
+                            name="username"
                             onChange={this.onChange} // permite activar el cambio de estado cuando se ingresa un cambio en el campo
                             value={username}
                         />
@@ -42,11 +54,16 @@ export class Login extends Component {
                     </div>
                     <p>
                         Don't hace an account?
-                        <Link to="/login">Register</Link>
+                        <Link to="/register">Register</Link>
                     </p>
                 </form>
+
             </div>
         )
     }
 }
-export default Login;
+const mapStateToProps = (state) => ({
+    isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, { login })(Login);
