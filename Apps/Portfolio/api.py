@@ -1,8 +1,13 @@
 from Apps.Portfolio.models import Contact
+# viewsets vista basada en clases
+# permissions permite verificar los permisos que va a tener la clase (vea el siguiente link si desea saber que tipo de permisos hay)
+# https://www.django-rest-framework.org/api-guide/permissions/
 from rest_framework import viewsets, permissions
+# ContactSerializer es el modelo serializado
 from .serializers import ContactSerializer
 
-# Contact Viewsets (vista del api)
+
+# Contact Viewsets (vista del api), servicio que brinda este backend
 
 
 class ContactViweSet(viewsets.ModelViewSet):
@@ -10,6 +15,7 @@ class ContactViweSet(viewsets.ModelViewSet):
     permission_classes = [  # permisos atribuidos a la api
         # permissions.AllowAny # todos los permisos (CRUD)
         # todos los permisos (CRUD) si está autenticado
+        # el usuario debe de estar autenticado para poder hacer uso de esta clase
         permissions.IsAuthenticated
     ]
 

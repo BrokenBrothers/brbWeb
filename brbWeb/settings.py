@@ -47,6 +47,8 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {  # se  declara knox como la autenticacion por default en la aplicacion
     'DEFAULT_AUTHENTICATION_CLASSES':
+    # la autenticación se manejará por medio de un token que se otorga en el momento del registro de usuario
+    # y cuando se realiza el login se carga en memoria para hacer las peticiones por medio de el.
     ('knox.auth.TokenAuthentication',)
 }
 

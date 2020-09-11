@@ -47,5 +47,5 @@ export const addContact = (contact) => dispatch => {
             dispatch(createMessage({// se envia al reducer la accion de crear un nuevo mensaje 
                 addContact: 'Contact added' // mensaje de contacto agregado
             }));
-        }).catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
+        }).catch(err => dispatch(returnErrors(err.response.data, err.response.status)));// si salta un error llama a la accion 
 };
